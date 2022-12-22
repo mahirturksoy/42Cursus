@@ -1,15 +1,8 @@
 #include "libft.h"
 
-int ft_tolower(int c)
+int	ft_tolower(int c)
 {
-    unsigned char tmp;
-
-    tmp = c;
-
-    if(tmp >= 'A' && tmp <= 'Z')
-    {
-        tmp += 32;
-    }
-    
-    return tmp;
+	if (c >= 'A' && c <= 'Z')
+		return (c + 32);
+	return (c);
 }
