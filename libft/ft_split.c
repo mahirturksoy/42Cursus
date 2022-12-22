@@ -1,76 +1,64 @@
 #include "libft.h"
 
-static int count_words(char const *s, char c)
+static int	count_words(const char *str, char c)
 {
-    int words;
-    int i;
+	int	i;
+	int	trigger;
 
-    words = 0;
-    i = 0;
-    if(!s)
-        return(0);
-    if(!s[0])
-        return (0);
-    if(s[i] != c)
-    {
-        i++;
-        words++;
-    }
-    while(s[i] != '\0')
-    {
-        if (s[i] == c && s[i + 1] != c && s[i + 1] != '\0')
-            words++;
-        i++;
-    }
-    return(words);
+	i = 0;
+	trigger = 0;
+	while (*str)
+	{
+		if (*str != c && trigger == 0)
+		{
+			trigger = 1;
+			i++;
+		}
+		else if (*str == c)
+			trigger = 0;
+		str++;
+	}
+	return (i);
 }
 
-static char *make_string(char const *s, char c)
+static char	*word_dup(const char *str, int start, int finish)
 {
-    char *word;
-    int i;
+	char	*word;
+	int		i;
 
-    i = 0;
-    while(s[i] && s[i] != c)
-        i++;
-    word = (char*)malloc(sizeof(char)*(i + 1));
-    if(!word)
-        return (NULL);
-    i = 0;
-    while(s[i] && s[i] != c)
-    {
-        word[i] = s[i];
-        i++;
-    }
-    word[i] = '\0';
-    return (word);
+	i = 0;
+	word = malloc((finish - start + 1) * sizeof(char));
+	while (start < finish)
+		word[i++] = str[start++];
+	word[i] = '\0';
+	return (word);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**result;
-	int		num_words;
-	int		i;
+	size_t	i;
+	size_t	j;
+	int		index;
+	char	**split;
 
 	if (!s)
-		return (NULL);
-	i = 0;
-	num_words = count_words(s, c);
-	result = (char **)malloc(sizeof(char *) * (num_words + 1));
-	if (!result)
-		return (NULL);
-	while (*s)
+		return (0);
+	split = malloc((count_words(s, c) + 1) * sizeof(char *));
+	if (!split)
+		return (0);
+	i = -1;
+	j = 0;
+	index = -1;
+	while (++i <= ft_strlen(s))
 	{
-		while (*s && *s == c)
-			s++;
-		if (*s && *s != c)
+		if (s[i] != c && index < 0)
+			index = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
 		{
-			result[i] = make_string(s, c);
-			i++;
-			while (*s && *s != c)
-				s++;
+			split[j++] = word_dup(s, index, i);
+			index = -1;
 		}
 	}
-	result[i] = NULL;
-	return (result);
+	split[j] = 0;
+	return (split);
 }
