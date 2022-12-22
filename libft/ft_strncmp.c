@@ -1,19 +1,19 @@
 #include "libft.h"
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-    size_t index;
-    index = 0;
-    if(n == 0)
-        return 0;
-    while(s1[index] == s2[index] && index < n)
-    {
-        index++;
-    }
-    if(s1[index] - s2[index] > 0)
-        return 1;
-    else if(s1[index] - s2[index] < 0)
-        return -1;
+	size_t			i;
+	unsigned char	*b1;
+	unsigned char	*b2;
 
-    return 0;
+	b1 = (unsigned char *)s1;
+	b2 = (unsigned char *)s2;
+	i = 0;
+	while (n--)
+	{
+		if (b1[i] != b2[i] || b1[i] == 0 || b2[i] == 0)
+			return (b1[i] - b2[i]);
+		i++;
+	}
+	return (0);
 }
