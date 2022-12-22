@@ -1,12 +1,12 @@
 #include "libft.h"
 
-void *ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t count, size_t size)
 {
-    void *ptr;
+	void	*a;
 
-    ptr = (void*)malloc(count * size);
-    if(ptr == 0)
-        return (ptr);
-    ft_bzero(ptr, count * size);
-    return (ptr);
+	a = malloc(size * count);
+	if (!a)
+		return (a);
+	ft_bzero (a, size * count);
+	return (a);
 }
